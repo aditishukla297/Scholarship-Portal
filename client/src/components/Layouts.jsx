@@ -81,7 +81,7 @@ export function ProtectedRoute({ children, roles }) {
               <p className="font-semibold">You are not authorised to view this page.</p>
               <p className="mt-1">
                 This section is restricted to {roles.join(' and ')} accounts. If you believe this is an error, contact the
-                Scholarship Division at helpdesk-scholarship@tribal.gov.in.
+                Scholarship Division at helpdesk@example.in (sample address).
               </p>
             </div>
           </div>

@@ -61,7 +61,7 @@ export default function Landing() {
         <div className="gov-container grid items-center gap-8 py-8 md:grid-cols-[1.1fr_0.9fr]">
           <div>
             <p className="mb-2 inline-block border-l-4 border-saffron bg-white px-2.5 py-1 text-gov-xs font-semibold uppercase tracking-wide text-navy">
-              Smart India Hackathon · Ministry of Tribal Affairs
+              Smart India Hackathon 2026 · Prototype
             </p>
             <h1 className="text-gov-title leading-snug text-navy sm:text-[2rem]">{t('heroHeading')}</h1>
             <p className="mt-2.5 max-w-2xl text-gov-body leading-relaxed text-govgrey-700">{t('heroSub')}</p>
@@ -149,7 +149,7 @@ export default function Landing() {
           <h2 className="gov-section-title">{t('howItWorks')}</h2>
           <p className="mb-5 max-w-3xl text-gov-body text-govgrey-600">
             The application travels through six stages. Automated checks assist at stages four and five; the decision to
-            approve, reject or select is taken only by an authorised officer of the Ministry.
+            approve, reject or select is always taken by a human reviewing officer, never by the system.
           </p>
 
           <ol className="grid gap-x-3 gap-y-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">

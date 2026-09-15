@@ -75,8 +75,8 @@ export default function Sidebar() {
       </nav>
 
       <div className="m-3 rounded-gov border border-govgrey-300 bg-govgrey-100 p-2.5">
-        <p className="text-gov-xs font-semibold text-navy">Helpline</p>
-        <p className="text-gov-xs text-govgrey-600">1800-11-8004</p>
+        <p className="text-gov-xs font-semibold text-navy">Helpline (sample)</p>
+        <p className="text-gov-xs text-govgrey-600">1800-000-0000</p>
         <p className="text-gov-xs text-govgrey-600">09:00 – 18:00 hrs, working days</p>
       </div>
     </aside>

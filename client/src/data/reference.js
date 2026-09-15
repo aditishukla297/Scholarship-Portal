@@ -62,5 +62,5 @@ export const ANNOUNCEMENTS = [
   { date: '05/09/2026', text: 'Revised guidelines for the National Overseas Scholarship, 2026-27 published. Applicants are advised to read the guidelines before applying.', tag: 'Important' },
   { date: '28/08/2026', text: 'Sanction orders for the second instalment under the Top Class Education Scheme have been issued. Beneficiaries may view the status under Track Application.', tag: '' },
   { date: '19/08/2026', text: 'Aadhaar seeding of bank accounts is mandatory for release of scholarship amounts through DBT. Students are advised to complete NPCI mapping at their bank branch.', tag: '' },
-  { date: '02/08/2026', text: 'Helpdesk timings revised. The national helpline 1800-11-8004 is now available from 09:00 to 18:00 hrs on all working days.', tag: '' },
+  { date: '02/08/2026', text: 'Helpdesk timings revised. The helpline 1800-000-0000 is now available from 09:00 to 18:00 hrs on all working days.', tag: '' },
 ];

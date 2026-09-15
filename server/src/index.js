@@ -25,7 +25,7 @@ app.get('/api/health', (_req, res) =>
   res.json({
     status: 'UP',
     service: 'AI-Enabled Scholarship and Fellowship Management System',
-    ministry: 'Ministry of Tribal Affairs, Government of India',
+    note: 'Smart India Hackathon prototype — not a Government of India service',
     time: new Date().toISOString(),
   })
 );
@@ -56,7 +56,7 @@ connectDB()
       await seedDatabase();
     }
     app.listen(PORT, () => {
-      console.log(`[server] Ministry of Tribal Affairs portal API listening on http://localhost:${PORT}`);
+      console.log(`[server] Scholarship portal API listening on http://localhost:${PORT}`);
     });
   })
   .catch((err) => {

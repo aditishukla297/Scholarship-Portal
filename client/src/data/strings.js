@@ -4,9 +4,12 @@
  * English where a certified Hindi translation is not yet available.
  */
 export const STRINGS = {
-  ministry: { en: 'Ministry of Tribal Affairs, Government of India', hi: 'जनजातीय कार्य मंत्रालय, भारत सरकार' },
+  ministry: {
+    en: 'Problem statement published by the Ministry of Tribal Affairs',
+    hi: 'जनजातीय कार्य मंत्रालय द्वारा प्रकाशित समस्या विवरण',
+  },
   ministryShort: { en: 'Ministry of Tribal Affairs', hi: 'जनजातीय कार्य मंत्रालय' },
-  govOfIndia: { en: 'Government of India', hi: 'भारत सरकार' },
+  govOfIndia: { en: 'Smart India Hackathon 2026', hi: 'स्मार्ट इंडिया हैकाथॉन 2026' },
   portalTitle: {
     en: 'AI-Enabled Scholarship and Fellowship Management System',
     hi: 'एआई-सक्षम छात्रवृत्ति एवं फेलोशिप प्रबंधन प्रणाली',
@@ -30,7 +33,7 @@ export const STRINGS = {
     hi: 'अनुसूचित जनजाति विद्यार्थियों हेतु छात्रवृत्ति एवं फेलोशिप',
   },
   heroSub: {
-    en: 'A single, transparent window for applying to Ministry of Tribal Affairs scholarship and fellowship schemes — with automated document checks, rule-based eligibility screening and end-to-end DBT tracking.',
+    en: 'A prototype single-window system for scholarship and fellowship schemes — with automated document checks, rule-based eligibility screening and end-to-end DBT tracking. Built for the Smart India Hackathon; all data shown is sample data.',
     hi: 'जनजातीय कार्य मंत्रालय की छात्रवृत्ति एवं फेलोशिप योजनाओं हेतु एकल, पारदर्शी माध्यम — स्वचालित दस्तावेज़ जाँच, नियम-आधारित पात्रता परीक्षण एवं डीबीटी अनुश्रवण के साथ।',
   },
   applyNow: { en: 'Apply Now', hi: 'अभी आवेदन करें' },

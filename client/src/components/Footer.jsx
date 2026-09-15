@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin } from 'lucide-react';
-import { DigitalIndiaMark } from './Emblem';
+import { HackathonMark } from './Emblem';
 import { useUi } from '../context/UiContext';
 
 export default function Footer() {
@@ -29,7 +29,7 @@ export default function Footer() {
       ],
     },
     {
-      title: 'Related Links',
+      title: 'Reference (official sites)',
       links: [
         { href: 'https://tribal.nic.in', label: 'Ministry of Tribal Affairs' },
         { href: 'https://scholarships.gov.in', label: 'National Scholarship Portal' },
@@ -46,19 +46,24 @@ export default function Footer() {
       <div className="bg-navy text-white">
         <div className="gov-container grid gap-6 py-7 md:grid-cols-4">
           <div>
-            <h2 className="mb-2 text-gov-card font-semibold text-white">{t('ministryShort')}</h2>
+            <h2 className="mb-2 text-gov-card font-semibold text-white">About this project</h2>
+            <p className="mb-2 text-gov-table text-white/85">
+              A working prototype built for the Smart India Hackathon, addressing a problem statement published by the
+              Ministry of Tribal Affairs. It is not affiliated with, endorsed by or operated by the Ministry or any
+              Government body.
+            </p>
             <address className="space-y-1.5 text-gov-table not-italic text-white/85">
               <p className="flex gap-2">
                 <MapPin size={14} className="mt-0.5 shrink-0" aria-hidden="true" />
-                Shastri Bhawan, Dr. Rajendra Prasad Road, New Delhi — 110001
+                Sample helpdesk details shown throughout are illustrative only.
               </p>
               <p className="flex gap-2">
                 <Phone size={14} className="mt-0.5 shrink-0" aria-hidden="true" />
-                1800-11-8004 (Toll Free), 09:00 – 18:00 hrs
+                1800-000-0000 (sample)
               </p>
               <p className="flex gap-2">
                 <Mail size={14} className="mt-0.5 shrink-0" aria-hidden="true" />
-                helpdesk-scholarship@tribal.gov.in
+                helpdesk@example.in (sample)
               </p>
             </address>
           </div>
@@ -88,12 +93,13 @@ export default function Footer() {
 
       <div className="border-t border-navy-dark bg-navy-dark">
         <div className="gov-container flex flex-wrap items-center justify-between gap-3 py-3 text-gov-xs text-white/80">
-          <p>
-            Content owned and maintained by the Ministry of Tribal Affairs, Government of India. Designed, developed and
-            hosted by the National Informatics Centre (NIC).
+          <p className="max-w-3xl">
+            Smart India Hackathon prototype. Independent student project — not a Government of India website. All
+            scheme particulars, figures and contact details shown are sample data for demonstration, and must be
+            verified against the official portals linked above.
           </p>
           <div className="flex items-center gap-4">
-            <DigitalIndiaMark className="h-7" />
+            <HackathonMark className="h-8" />
             <span>
               {t('lastUpdated')}: {updated}
             </span>

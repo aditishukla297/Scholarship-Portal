@@ -16,7 +16,7 @@ export default function UtilityBar() {
     <div className="border-b border-navy-dark bg-navy-light text-white no-print">
       <div className="gov-container flex flex-wrap items-center justify-between gap-y-1 py-1 text-gov-xs">
         <div className="flex items-center gap-3">
-          <span className="hidden sm:inline">{t('govOfIndia')}</span>
+          <span className="hidden font-semibold sm:inline">Smart India Hackathon prototype</span>
           <span className="hidden text-white/50 sm:inline">|</span>
           <span className="hidden md:inline">{today}</span>
         </div>

@@ -11,7 +11,7 @@ export default function Helpdesk() {
     <PublicLayout
       breadcrumbs={[{ label: 'Helpdesk' }]}
       title="Helpdesk and Grievance Redressal"
-      intro="Frequently asked questions, contact particulars of the Scholarship Division and the facility to register a grievance. Grievances are acknowledged immediately and disposed of within 15 working days."
+      intro="Frequently asked questions, contact particulars and the facility to register a grievance. This is a hackathon prototype — the contact details below are sample values, and grievances raised here are stored for demonstration only."
     >
       <div className="bg-govgrey-100 py-6">
         <div className="gov-container grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">
@@ -155,22 +155,22 @@ function GrievanceForm() {
 
 function ContactPanel() {
   return (
-    <Panel title="Contact the Ministry">
+    <Panel title="Contact (sample details)">
+      <p className="mb-3 rounded-gov border-l-4 border-saffron bg-saffron-light px-2.5 py-1.5 text-gov-xs text-govgrey-700">
+        The particulars below are placeholders used to demonstrate the layout. For real scholarship queries, use the
+        official Ministry of Tribal Affairs and National Scholarship Portal channels.
+      </p>
       <dl className="space-y-3">
-        <ContactRow icon={Phone} label="National Helpline" value="1800-11-8004 (Toll Free)" note="09:00 – 18:00 hrs on working days" />
-        <ContactRow icon={Phone} label="Scholarship Division" value="011-2338 4567" />
-        <ContactRow icon={Mail} label="Email" value="helpdesk-scholarship@tribal.gov.in" />
-        <ContactRow icon={Mail} label="Overseas Scholarship" value="nos-cell@tribal.gov.in" />
-        <ContactRow
-          icon={MapPin}
-          label="Postal Address"
-          value="Scholarship Division, Ministry of Tribal Affairs, Shastri Bhawan, Dr. Rajendra Prasad Road, New Delhi — 110001"
-        />
+        <ContactRow icon={Phone} label="Helpline" value="1800-000-0000 (sample)" note="09:00 – 18:00 hrs on working days" />
+        <ContactRow icon={Phone} label="Scholarship Division" value="011-0000 0000 (sample)" />
+        <ContactRow icon={Mail} label="Email" value="helpdesk@example.in (sample)" />
+        <ContactRow icon={Mail} label="Overseas Scholarship" value="nos-cell@example.in (sample)" />
+        <ContactRow icon={MapPin} label="Postal Address" value="[Office address of the implementing authority]" />
       </dl>
       <div className="mt-3 rounded-gov border border-govgrey-300 bg-govgrey-50 p-2.5">
         <p className="text-gov-xs text-govgrey-600">
-          Grievances not resolved at this level may be escalated through the Centralised Public Grievance Redress and
-          Monitoring System (CPGRAMS) at pgportal.gov.in.
+          In the real scheme, grievances not resolved at this level are escalated through the Centralised Public
+          Grievance Redress and Monitoring System (CPGRAMS) at pgportal.gov.in.
         </p>
       </div>
     </Panel>

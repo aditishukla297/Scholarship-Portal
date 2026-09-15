@@ -90,7 +90,7 @@ export default function DbtInfo() {
               <CircleAlert size={16} className="mt-0.5 shrink-0" aria-hidden="true" />
               <p className="text-gov-xs">
                 Beware of fraudulent calls and messages promising sanction of scholarship on payment of a fee. Report such
-                instances immediately on the national helpline 1800-11-8004.
+                instances immediately on the scheme helpline.
               </p>
             </div>
 

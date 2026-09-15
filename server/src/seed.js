@@ -68,7 +68,7 @@ export async function seedDatabase({ standalone = false } = {}) {
   const admin = await makeUser(
     {
       name: 'Dr. R. Subramanian',
-      email: 'admin@tribal.gov.in',
+      email: 'admin@example.in',
       phone: '9810000001',
       role: 'admin',
       designation: 'Joint Secretary (Education), MoTA',
@@ -82,7 +82,7 @@ export async function seedDatabase({ standalone = false } = {}) {
     makeUser(
       {
         name: 'Smt. Anita Verma',
-        email: 'officer@tribal.gov.in',
+        email: 'officer@example.in',
         phone: '9810000002',
         role: 'officer',
         designation: 'Under Secretary (Scholarship Division)',
@@ -94,7 +94,7 @@ export async function seedDatabase({ standalone = false } = {}) {
     makeUser(
       {
         name: 'Shri K. Toppo',
-        email: 'officer2@tribal.gov.in',
+        email: 'officer2@example.in',
         phone: '9810000003',
         role: 'officer',
         designation: 'Section Officer (NFST)',
@@ -366,8 +366,8 @@ export async function seedDatabase({ standalone = false } = {}) {
   console.log(' Demo accounts (password shown against each)');
   console.log('=============================================================');
   console.log(' Applicant      student@example.in     Student@1234');
-  console.log(' Officer        officer@tribal.gov.in  Officer@1234');
-  console.log(' Administrator  admin@tribal.gov.in    Admin@1234');
+  console.log(' Officer        officer@example.in     Officer@1234');
+  console.log(' Administrator  admin@example.in       Admin@1234');
   console.log('=============================================================\n');
 
   return { schemes: schemes.length, applications: created.length };

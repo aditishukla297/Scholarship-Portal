@@ -14,13 +14,13 @@ const DEMO = [
   },
   {
     role: 'Verifying Officer',
-    email: 'officer@tribal.gov.in',
+    email: 'officer@example.in',
     password: 'Officer@1234',
     opens: 'Work the verification queue, read the AI panel and record decisions.',
   },
   {
     role: 'Administrator',
-    email: 'admin@tribal.gov.in',
+    email: 'admin@example.in',
     password: 'Admin@1234',
     opens: 'Manage schemes, eligibility rules, users and reports.',
   },

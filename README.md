@@ -1,15 +1,18 @@
 # AI-Enabled Scholarship and Fellowship Management System
 
-**Ministry of Tribal Affairs, Government of India** — Smart India Hackathon prototype.
+**A Smart India Hackathon 2026 prototype**, built against a problem statement published by the
+Ministry of Tribal Affairs.
 
 A full-stack portal for administering scholarship and fellowship schemes for Scheduled Tribe
 students, from application through automated document verification and officer review to
 the Direct Benefit Transfer credit.
 
-> **Prototype notice.** This is a hackathon submission, not a deployed Government system.
-> The emblems are simplified renderings and must be replaced with official artwork before
-> any real deployment (see *Branding and emblems* below). OCR is a deterministic simulation
-> with a documented integration point, not a real document-AI service.
+> **This is not a Government of India website.** It is an independent student project, not
+> affiliated with, endorsed by or operated by the Ministry of Tribal Affairs or any Government
+> body. The State Emblem of India is deliberately not used. Every scheme figure, helpline,
+> email address and application record shown is **sample data** for demonstration. Generated
+> letters are watermarked as specimens. OCR is a deterministic simulation with a documented
+> integration point, not a real document-AI service.
 
 ---
 
@@ -62,16 +65,24 @@ Receiver and is deliberately avoided. To change them, edit `PORT` and `CLIENT_OR
 
 ---
 
-## Demonstration accounts
+## Signing in
+
+**Registration is fully functional** — use **Register** in the navigation to create a real
+applicant account, which is persisted to MongoDB with the password bcrypt-hashed and the
+Aadhaar number stored masked. That is the honest path through the applicant journey.
+
+The seeded accounts below exist so the officer and administrator views can be reached without
+setting them up, and because those roles have data behind them. The login page offers one-click
+sign-in for each.
 
 | Role | Email | Password |
 |---|---|---|
 | Applicant | `student@example.in` | `Student@1234` |
-| Verifying Officer | `officer@tribal.gov.in` | `Officer@1234` |
-| Administrator | `admin@tribal.gov.in` | `Admin@1234` |
+| Verifying Officer | `officer@example.in` | `Officer@1234` |
+| Administrator | `admin@example.in` | `Admin@1234` |
 
 Officer and administrator accounts cannot be self-registered — they are provisioned by an
-administrator under **Administration → Manage Users**, mirroring real Ministry practice.
+administrator under **Administration → Manage Users**, mirroring real departmental practice.
 
 ---
 
@@ -267,16 +278,20 @@ mota-portal/
 
 ## Branding and emblems
 
-Ministries of the Government of India do not carry a separate departmental logo. The masthead
-therefore shows the **State Emblem alone**, set against the name of the Government and the
-Ministry given in Hindi and English together — the convention followed by tribal.nic.in, NSP and
-other NIC-built portals. Only national initiative marks (Digital India, DBT, G20) appear
-alongside, and here that is limited to the Digital India mark in the footer.
+Because this is a personal hackathon project rather than a Government service, it carries **its
+own project mark** (`client/src/components/Emblem.jsx`) and does not use the State Emblem of
+India — use of that emblem is reserved to the Government under the State Emblem of India
+(Prohibition of Improper Use) Act, 2005.
 
-`client/src/components/Emblem.jsx` contains a **simplified inline SVG rendering** of the Lion
-Capital, drawn for this prototype so that no external image is required. Use of the State Emblem
-is governed by the State Emblem of India (Prohibition of Improper Use) Act, 2005 — any real
-deployment must replace it with the official artwork supplied by the Ministry.
+The masthead names the project, marks it **PROTOTYPE**, and credits the Ministry of Tribal
+Affairs only as the publisher of the problem statement. The footer states plainly that this is
+an independent student project and links to the genuine official portals. Contact details are
+placeholders (`1800-000-0000`, `@example.in`), and the letter generator watermarks every draft
+as a specimen.
+
+The **visual language** still follows NIC-built portals (NSP, GeM, DigiLocker, DBT Tribal) — that
+is appropriate to the problem domain and is what the interface is designed to demonstrate. What
+it does not do is claim to be one of them.
 
 ---
 
@@ -288,5 +303,7 @@ deployment must replace it with the official artwork supplied by the Ministry.
   normally.
 - Hindi covers the interface chrome (header, navigation, landing page); scheme content and
   officer screens remain in English pending certified translation.
+- Scheme particulars are modelled on the real NFST, NOS, Top Class, Post Matric and Pre Matric
+  schemes but are **not authoritative** — verify against scholarships.gov.in and tribal.nic.in.
 - Grievances are stored but have no officer-side workflow.
 - Email and SMS notifications are not wired up.

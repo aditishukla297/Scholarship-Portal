@@ -1,90 +1,43 @@
 /**
- * State Emblem of India (Lion Capital of Ashoka), drawn as an inline SVG
- * silhouette — the treatment Government of India portals use in the masthead.
+ * Project identity marks.
  *
- * Ministries of the Government of India do not carry a separate departmental
- * logo: the State Emblem, set against the bilingual name of the Ministry, is
- * the identity. Only national initiative marks (Digital India, DBT, G20 and
- * the like) appear alongside it.
- *
- * NOTE: This is a simplified rendering for a prototype. Any deployment must
- * replace it with the official artwork supplied by the Ministry; use of the
- * emblem is governed by the State Emblem of India (Prohibition of Improper
- * Use) Act, 2005.
+ * This is a Smart India Hackathon prototype, not a Government of India portal.
+ * It therefore carries its own project mark — the State Emblem of India is not
+ * used, since its use is reserved to the Government under the State Emblem of
+ * India (Prohibition of Improper Use) Act, 2005.
  */
-export function StateEmblem({ className = 'h-16 w-auto', title = 'State Emblem of India' }) {
+
+/** Primary project mark: a scholarship device in the portal palette. */
+export function ProjectMark({ className = 'h-12 w-12', title = 'Scholarship Management System' }) {
   return (
-    <svg viewBox="0 0 100 134" className={className} role="img" aria-label={title}>
+    <svg viewBox="0 0 64 64" className={className} role="img" aria-label={title}>
       <title>{title}</title>
-      <g fill="currentColor">
-        {/* ---- Lions: the centre one facing forward, two flanking in profile ---- */}
+      <rect x="1.5" y="1.5" width="61" height="61" rx="8" fill="#0B3D91" />
+      <rect x="1.5" y="1.5" width="61" height="61" rx="8" fill="none" stroke="#163A70" strokeWidth="1.5" />
 
-        {/* Muzzles of the profile lions, projecting to either side */}
-        <path d="M14.5 40.5c-4.2.3-7.3 1.8-8.8 4.3-.5.9 0 1.9 1 2.1 3 .6 5.9.4 8.6-.7l-.8-5.7Z" />
-        <path d="M85.5 40.5c4.2.3 7.3 1.8 8.8 4.3.5.9 0 1.9-1 2.1-3 .6-5.9.4-8.6-.7l.8-5.7Z" />
+      {/* Graduation cap */}
+      <path d="M32 15 12 23.5 32 32l20-8.5L32 15Z" fill="#FFFFFF" />
+      <path d="M21 28v9.5c0 3.6 4.9 6.5 11 6.5s11-2.9 11-6.5V28l-11 4.7L21 28Z" fill="#FF9933" />
+      {/* Tassel */}
+      <path d="M52 23.5v11" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" />
+      <circle cx="52" cy="36" r="2.6" fill="#FF9933" />
 
-        {/* Manes — three overlapping masses, the centre standing highest */}
-        <circle cx="25" cy="37" r="15.5" />
-        <circle cx="75" cy="37" r="15.5" />
-        <circle cx="50" cy="29" r="18.5" />
-
-        {/* Chests and forelegs, carrying the lions down onto the abacus */}
-        <path d="M11 45.5h78c1.4 4.6 1.2 9.2-.6 13.8H11.6c-1.8-4.6-2-9.2-.6-13.8Z" />
-
-        {/* ---- Abacus: the band bearing the Dharma Chakra ---- */}
-        <rect x="7" y="59" width="86" height="6.5" rx="1.5" />
-        <path d="M12 67h76c1.1 9.6 1.1 19.2 0 28.8H12c-1.1-9.6-1.1-19.2 0-28.8Z" />
-        <rect x="7" y="97" width="86" height="6.5" rx="1.5" />
-
-        {/* ---- Bell-shaped lotus base ---- */}
-        <path d="M22 105h56c-1.1 8.4-5.4 14.6-12.8 18.5H34.8C27.4 119.6 23.1 113.4 22 105Z" />
-        <rect x="30" y="124.5" width="40" height="4" rx="1.2" />
-      </g>
-
-      {/* Dharma Chakra, reversed out of the abacus face */}
-      <g stroke="#FFFFFF" fill="none">
-        <circle cx="50" cy="81" r="12.6" strokeWidth="2.4" />
-        {Array.from({ length: 24 }).map((_, i) => {
-          const a = (i * Math.PI) / 12;
-          return (
-            <line
-              key={i}
-              x1={50 + Math.cos(a) * 3.2}
-              y1={81 + Math.sin(a) * 3.2}
-              x2={50 + Math.cos(a) * 11.6}
-              y2={81 + Math.sin(a) * 11.6}
-              strokeWidth="1.15"
-            />
-          );
-        })}
-      </g>
-      <circle cx="50" cy="81" r="2.9" fill="currentColor" stroke="#FFFFFF" strokeWidth="1.6" />
-
-      {/* Motto, inscribed below the capital */}
-      <text
-        x="50"
-        y="133"
-        textAnchor="middle"
-        fontSize="11"
-        fontFamily="'Noto Sans Devanagari', 'Noto Sans', sans-serif"
-        fontWeight="700"
-        fill="currentColor"
-      >
-        सत्यमेव जयते
-      </text>
+      {/* Base rule, in the national colours */}
+      <rect x="16" y="49" width="10.7" height="3" rx="1.5" fill="#FF9933" />
+      <rect x="26.7" y="49" width="10.6" height="3" fill="#FFFFFF" />
+      <rect x="37.3" y="49" width="10.7" height="3" rx="1.5" fill="#138808" />
     </svg>
   );
 }
 
-/** Digital India initiative mark, shown in the footer alongside the NIC credit. */
-export function DigitalIndiaMark({ className = 'h-8' }) {
+/** Compact mark used in the footer. */
+export function HackathonMark({ className = 'h-8' }) {
   return (
-    <svg viewBox="0 0 140 34" className={className} role="img" aria-label="Digital India">
-      <circle cx="16" cy="17" r="11" fill="#FF9933" />
-      <circle cx="16" cy="17" r="6.5" fill="#FFFFFF" />
-      <circle cx="16" cy="17" r="2.6" fill="#0B3D91" />
-      <text x="33" y="15" fontSize="11" fontWeight="700" fill="#0B3D91">DIGITAL</text>
-      <text x="33" y="28" fontSize="11" fontWeight="700" fill="#138808">INDIA</text>
+    <svg viewBox="0 0 150 34" className={className} role="img" aria-label="Smart India Hackathon 2026">
+      <rect x="0.5" y="0.5" width="149" height="33" rx="4" fill="none" stroke="#D6D9E0" />
+      <rect x="0.5" y="0.5" width="4" height="33" fill="#FF9933" />
+      <text x="14" y="15" fontSize="10" fontWeight="700" fill="#0B3D91">SMART INDIA</text>
+      <text x="14" y="27" fontSize="10" fontWeight="700" fill="#138808">HACKATHON 2026</text>
     </svg>
   );
 }

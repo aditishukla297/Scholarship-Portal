@@ -1,55 +1,46 @@
 import { Link } from 'react-router-dom';
 import { Search } from 'lucide-react';
-import { StateEmblem } from './Emblem';
+import { ProjectMark } from './Emblem';
 import { useUi } from '../context/UiContext';
 
 /**
  * Masthead.
  *
- * Follows the convention of Government of India ministry portals: the State
- * Emblem alone, set against the name of the Government and the Ministry given
- * in Hindi and English together, with the name of the portal alongside.
- * Ministries do not carry a separate departmental logo.
+ * This is a student prototype built for the Smart India Hackathon against a
+ * problem statement published by the Ministry of Tribal Affairs. It is not a
+ * Government of India portal, and does not present itself as one: the project
+ * carries its own mark, and the Ministry is named only as the source of the
+ * problem statement.
  */
 export default function GovHeader() {
   const { t } = useUi();
 
   return (
     <header className="bg-white">
-      <div className="gov-container flex flex-wrap items-center gap-x-3.5 gap-y-2 py-2">
+      <div className="gov-container flex flex-wrap items-center gap-x-3.5 gap-y-2 py-2.5">
         <Link
           to="/"
-          className="flex shrink-0 items-center gap-2.5 no-underline hover:no-underline"
-          aria-label="Ministry of Tribal Affairs — home"
+          className="flex min-w-0 flex-1 shrink-0 items-center gap-3 no-underline hover:no-underline"
+          aria-label={`${t('portalTitle')} — home`}
         >
-          <StateEmblem className="h-[3.25rem] w-auto text-navy" />
+          <ProjectMark className="h-[3.25rem] w-[3.25rem] shrink-0" />
 
-          {/* Bilingual identity of the Government and the Ministry */}
-          <span className="block">
-            <span className="block font-hindi text-gov-xs font-semibold leading-tight text-govgrey-600">
-              भारत सरकार
+          <span className="min-w-0">
+            <span className="block font-hindi text-gov-xs font-semibold leading-tight text-navy-light">
+              एआई-सक्षम छात्रवृत्ति एवं फेलोशिप प्रबंधन प्रणाली
             </span>
-            <span className="block text-gov-xs font-semibold uppercase leading-tight tracking-wide text-govgrey-600">
-              Government of India
+            <span className="block text-gov-card font-bold leading-tight text-navy">
+              {t('portalTitle')}
             </span>
-            <span className="block font-hindi text-gov-body font-bold leading-tight text-navy">
-              जनजातीय कार्य मंत्रालय
-            </span>
-            <span className="block text-gov-body font-bold leading-tight text-navy">
-              Ministry of Tribal Affairs
+            <span className="mt-0.5 block text-gov-xs leading-tight text-govgrey-500">
+              Smart India Hackathon 2026 · Problem statement published by the Ministry of Tribal Affairs
             </span>
           </span>
         </Link>
 
-        <span className="hidden h-11 w-px shrink-0 self-center bg-govgrey-300 lg:block" aria-hidden="true" />
-
-        {/* Name of the portal */}
-        <div className="min-w-0 flex-1">
-          <p className="font-hindi text-gov-xs font-semibold leading-snug text-navy-light">
-            एआई-सक्षम छात्रवृत्ति एवं फेलोशिप प्रबंधन प्रणाली
-          </p>
-          <p className="text-gov-body font-bold leading-snug text-navy-light">{t('portalTitle')}</p>
-        </div>
+        <span className="shrink-0 rounded-gov border border-saffron-dark bg-saffron-light px-2 py-1 text-gov-xs font-bold uppercase tracking-wide text-saffron-dark">
+          Prototype
+        </span>
 
         <form
           className="hidden shrink-0 items-center lg:flex"
@@ -68,7 +59,7 @@ export default function GovHeader() {
             name="q"
             type="search"
             placeholder="Search schemes, guidelines…"
-            className="w-52 rounded-l-gov border border-r-0 border-govgrey-400 px-2.5 py-1.5 text-gov-body focus:border-navy focus:outline-none"
+            className="w-48 rounded-l-gov border border-r-0 border-govgrey-400 px-2.5 py-1.5 text-gov-body focus:border-navy focus:outline-none"
           />
           <button
             type="submit"
