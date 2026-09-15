@@ -45,6 +45,12 @@ built for serverless, so it is the path described here; Supabase works the same 
 Nothing else to configure — Neon accepts connections from anywhere, so there is no IP allow-list
 step.
 
+> **If the host will not resolve on your machine**, some ISP resolvers refuse to answer for
+> hosted-database hostnames. Set `DNS_SERVERS=8.8.8.8,1.1.1.1` in `server/.env` and the server
+> resolves the database host through those resolvers, connecting by address while keeping the
+> hostname for TLS SNI (the split libpq exposes as `host`/`hostaddr`). **Leave this unset on
+> Vercel** — its resolver works, and the override only adds a lookup.
+
 ## Step 2 — Create the schema and seed it
 
 The seeder applies `server/src/db/schema.sql` itself, so one command does both:
@@ -77,6 +83,9 @@ Answer the prompts, then set the environment variables — **Production, Preview
 | `CLIENT_ORIGIN` | the web URL from Step 4 (set it after, then redeploy) |
 | `PG_POOL_MAX` | `5` |
 | `MAX_UPLOAD_MB` | `5` |
+
+Do **not** set `DNS_SERVERS` on Vercel — it is only a workaround for a local resolver that
+refuses the database host.
 
 Either through the dashboard, or:
 

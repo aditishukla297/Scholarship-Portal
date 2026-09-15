@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import dns from 'dns';
 import { fileURLToPath } from 'url';
 import pg from 'pg';
 
@@ -15,33 +16,75 @@ types.setTypeParser(1700, (v) => (v === null ? null : Number(v)));
  * re-evaluated on cold start but the process is reused between invocations, so
  * without this each request would open its own pool.
  */
-const cache = globalThis.__motaPg ?? (globalThis.__motaPg = { pool: null });
+const cache = globalThis.__motaPg ?? (globalThis.__motaPg = { pool: null, promise: null });
 
-export function getPool() {
-  if (cache.pool) return cache.pool;
+/**
+ * Some ISP resolvers refuse to answer for hosted-database hostnames, which
+ * makes the database unreachable even though the host is perfectly valid.
+ * Setting DNS_SERVERS (for example "8.8.8.8,1.1.1.1") resolves the host
+ * through those resolvers and connects by address instead, keeping the
+ * original hostname for TLS SNI — the same split libpq exposes as
+ * host/hostaddr. Leave it unset and normal OS resolution is used.
+ */
+async function resolveOverride(connectionString) {
+  const servers = String(process.env.DNS_SERVERS || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+  if (!servers.length) return {};
 
+  const { hostname } = new URL(connectionString);
+  const resolver = new dns.promises.Resolver();
+  resolver.setServers(servers);
+  const [address] = await resolver.resolve4(hostname);
+  if (!address) return {};
+
+  console.log(`[db] resolved ${hostname} via ${servers.join(', ')}`);
+  // servername keeps SNI correct, which hosted providers rely on for routing.
+  return { host: address, servername: hostname };
+}
+
+async function buildPool() {
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) {
     throw new Error('DATABASE_URL is not set. Copy server/.env.example to server/.env and fill it in.');
   }
 
-  cache.pool = new Pool({
+  const isLocal = /localhost|127\.0\.0\.1/.test(connectionString);
+  const override = isLocal ? {} : await resolveOverride(connectionString);
+
+  const pool = new Pool({
     connectionString,
+    ...(override.host ? { host: override.host } : {}),
     // Hosted Postgres (Neon, Supabase, Railway) terminates TLS with its own CA.
-    ssl: /localhost|127\.0\.0\.1/.test(connectionString) ? false : { rejectUnauthorized: false },
+    ssl: isLocal
+      ? false
+      : { rejectUnauthorized: false, ...(override.servername ? { servername: override.servername } : {}) },
     max: Number(process.env.PG_POOL_MAX || 5),
     idleTimeoutMillis: 10_000,
-    connectionTimeoutMillis: 10_000,
+    connectionTimeoutMillis: 15_000,
   });
 
-  cache.pool.on('error', (err) => console.error('[db] idle client error:', err.message));
+  pool.on('error', (err) => console.error('[db] idle client error:', err.message));
+  return pool;
+}
+
+export async function getPool() {
+  if (cache.pool) return cache.pool;
+  if (!cache.promise) {
+    cache.promise = buildPool().catch((err) => {
+      cache.promise = null;
+      throw err;
+    });
+  }
+  cache.pool = await cache.promise;
   return cache.pool;
 }
 
 /** Runs a parameterised query. */
 export async function query(text, params = []) {
-  const result = await getPool().query(text, params);
-  return result;
+  const pool = await getPool();
+  return pool.query(text, params);
 }
 
 /** Convenience: first row, or null. */
@@ -58,7 +101,8 @@ export async function many(text, params = []) {
 
 /** Runs the callback inside a transaction. */
 export async function transaction(fn) {
-  const client = await getPool().connect();
+  const pool = await getPool();
+  const client = await pool.connect();
   try {
     await client.query('BEGIN');
     const result = await fn(client);
@@ -91,5 +135,6 @@ export async function closePool() {
   if (cache.pool) {
     await cache.pool.end();
     cache.pool = null;
+    cache.promise = null;
   }
 }
