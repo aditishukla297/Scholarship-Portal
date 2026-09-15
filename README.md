@@ -267,11 +267,16 @@ mota-portal/
 
 ## Branding and emblems
 
-`client/src/components/Emblem.jsx` contains **simplified inline SVG renderings** of the State
-Emblem of India and a Ministry device, drawn for this prototype so that no external image is
-required. Use of the State Emblem is governed by the State Emblem of India (Prohibition of
-Improper Use) Act, 2005 — any real deployment must replace these with the official artwork
-supplied by the Ministry.
+Ministries of the Government of India do not carry a separate departmental logo. The masthead
+therefore shows the **State Emblem alone**, set against the name of the Government and the
+Ministry given in Hindi and English together — the convention followed by tribal.nic.in, NSP and
+other NIC-built portals. Only national initiative marks (Digital India, DBT, G20) appear
+alongside, and here that is limited to the Digital India mark in the footer.
+
+`client/src/components/Emblem.jsx` contains a **simplified inline SVG rendering** of the Lion
+Capital, drawn for this prototype so that no external image is required. Use of the State Emblem
+is governed by the State Emblem of India (Prohibition of Improper Use) Act, 2005 — any real
+deployment must replace it with the official artwork supplied by the Ministry.
 
 ---
 

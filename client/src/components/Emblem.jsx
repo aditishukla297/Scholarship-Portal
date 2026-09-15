@@ -1,85 +1,85 @@
 /**
- * Stylised representations of the Government of India State Emblem (Lion Capital
- * of Ashoka) and the Ministry of Tribal Affairs device, drawn as inline SVG.
+ * State Emblem of India (Lion Capital of Ashoka), drawn as an inline SVG
+ * silhouette — the treatment Government of India portals use in the masthead.
  *
- * NOTE: These are simplified renderings for a prototype. Any deployment of this
- * portal must replace them with the official artwork supplied by the Ministry,
- * whose use is governed by the State Emblem of India (Prohibition of Improper
+ * Ministries of the Government of India do not carry a separate departmental
+ * logo: the State Emblem, set against the bilingual name of the Ministry, is
+ * the identity. Only national initiative marks (Digital India, DBT, G20 and
+ * the like) appear alongside it.
+ *
+ * NOTE: This is a simplified rendering for a prototype. Any deployment must
+ * replace it with the official artwork supplied by the Ministry; use of the
+ * emblem is governed by the State Emblem of India (Prohibition of Improper
  * Use) Act, 2005.
  */
-
-export function StateEmblem({ className = 'h-14 w-auto', title = 'State Emblem of India' }) {
+export function StateEmblem({ className = 'h-16 w-auto', title = 'State Emblem of India' }) {
   return (
-    <svg viewBox="0 0 70 100" className={className} role="img" aria-label={title}>
+    <svg viewBox="0 0 100 134" className={className} role="img" aria-label={title}>
       <title>{title}</title>
       <g fill="currentColor">
-        {/* Three visible lions of the Lion Capital */}
-        <path d="M35 6c-5 0-8.5 3-9.2 7.3-2.4.8-4 2.6-4.4 5-2.6.5-4.3 2.3-4.6 4.9h36.4c-.3-2.6-2-4.4-4.6-4.9-.4-2.4-2-4.2-4.4-5C43.5 9 40 6 35 6Z" />
-        <path d="M17.6 25.5c-3.8.6-6.4 2.7-7.1 5.8h54c-.7-3.1-3.3-5.2-7.1-5.8H17.6Z" />
-        {/* Abacus */}
-        <rect x="9" y="33" width="52" height="5.5" rx="1" />
-        <path d="M12.5 40.5h45l-1.8 7.5H14.3l-1.8-7.5Z" />
-        {/* Dharma Chakra */}
-        <circle cx="35" cy="55" r="7.6" fill="none" stroke="currentColor" strokeWidth="1.8" />
-        <circle cx="35" cy="55" r="1.7" />
-        {Array.from({ length: 12 }).map((_, i) => {
-          const a = (i * Math.PI) / 6;
+        {/* ---- Lions: the centre one facing forward, two flanking in profile ---- */}
+
+        {/* Muzzles of the profile lions, projecting to either side */}
+        <path d="M14.5 40.5c-4.2.3-7.3 1.8-8.8 4.3-.5.9 0 1.9 1 2.1 3 .6 5.9.4 8.6-.7l-.8-5.7Z" />
+        <path d="M85.5 40.5c4.2.3 7.3 1.8 8.8 4.3.5.9 0 1.9-1 2.1-3 .6-5.9.4-8.6-.7l.8-5.7Z" />
+
+        {/* Manes — three overlapping masses, the centre standing highest */}
+        <circle cx="25" cy="37" r="15.5" />
+        <circle cx="75" cy="37" r="15.5" />
+        <circle cx="50" cy="29" r="18.5" />
+
+        {/* Chests and forelegs, carrying the lions down onto the abacus */}
+        <path d="M11 45.5h78c1.4 4.6 1.2 9.2-.6 13.8H11.6c-1.8-4.6-2-9.2-.6-13.8Z" />
+
+        {/* ---- Abacus: the band bearing the Dharma Chakra ---- */}
+        <rect x="7" y="59" width="86" height="6.5" rx="1.5" />
+        <path d="M12 67h76c1.1 9.6 1.1 19.2 0 28.8H12c-1.1-9.6-1.1-19.2 0-28.8Z" />
+        <rect x="7" y="97" width="86" height="6.5" rx="1.5" />
+
+        {/* ---- Bell-shaped lotus base ---- */}
+        <path d="M22 105h56c-1.1 8.4-5.4 14.6-12.8 18.5H34.8C27.4 119.6 23.1 113.4 22 105Z" />
+        <rect x="30" y="124.5" width="40" height="4" rx="1.2" />
+      </g>
+
+      {/* Dharma Chakra, reversed out of the abacus face */}
+      <g stroke="#FFFFFF" fill="none">
+        <circle cx="50" cy="81" r="12.6" strokeWidth="2.4" />
+        {Array.from({ length: 24 }).map((_, i) => {
+          const a = (i * Math.PI) / 12;
           return (
             <line
               key={i}
-              x1={35 + Math.cos(a) * 2.2}
-              y1={55 + Math.sin(a) * 2.2}
-              x2={35 + Math.cos(a) * 7}
-              y2={55 + Math.sin(a) * 7}
-              stroke="currentColor"
-              strokeWidth="1.1"
+              x1={50 + Math.cos(a) * 3.2}
+              y1={81 + Math.sin(a) * 3.2}
+              x2={50 + Math.cos(a) * 11.6}
+              y2={81 + Math.sin(a) * 11.6}
+              strokeWidth="1.15"
             />
           );
         })}
-        {/* Bell-shaped lotus base */}
-        <path d="M20 64h30c-1.5 5-4 8.5-7 10.5H27c-3-2-5.5-5.5-7-10.5Z" />
-        <rect x="24" y="75" width="22" height="3.5" rx="1" />
-        {/* Satyameva Jayate */}
-        <text
-          x="35"
-          y="88"
-          textAnchor="middle"
-          fontSize="8.4"
-          fontFamily="'Noto Sans Devanagari', 'Noto Sans', sans-serif"
-          fontWeight="600"
-        >
-          सत्यमेव जयते
-        </text>
       </g>
-    </svg>
-  );
-}
+      <circle cx="50" cy="81" r="2.9" fill="currentColor" stroke="#FFFFFF" strokeWidth="1.6" />
 
-export function MinistryEmblem({ className = 'h-12 w-12' }) {
-  return (
-    <svg viewBox="0 0 100 100" className={className} role="img" aria-label="Ministry of Tribal Affairs">
-      <circle cx="50" cy="50" r="48" fill="#FFFFFF" stroke="#0B3D91" strokeWidth="3" />
-      <circle cx="50" cy="50" r="40" fill="none" stroke="#FF9933" strokeWidth="1.5" />
-      {/* Tree — the Ministry device draws on tribal forest heritage */}
-      <path d="M50 74V50" stroke="#5A4A2F" strokeWidth="4" strokeLinecap="round" />
-      <path d="M50 58 38 48M50 62 62 52" stroke="#5A4A2F" strokeWidth="2.5" strokeLinecap="round" />
-      <circle cx="50" cy="38" r="13" fill="#138808" />
-      <circle cx="36" cy="46" r="9" fill="#0E6606" />
-      <circle cx="64" cy="46" r="9" fill="#0E6606" />
-      {/* Ground */}
-      <path d="M26 76h48" stroke="#0B3D91" strokeWidth="3" strokeLinecap="round" />
-      <text x="50" y="88" textAnchor="middle" fontSize="9" fontWeight="700" fill="#0B3D91">
-        MoTA
+      {/* Motto, inscribed below the capital */}
+      <text
+        x="50"
+        y="133"
+        textAnchor="middle"
+        fontSize="11"
+        fontFamily="'Noto Sans Devanagari', 'Noto Sans', sans-serif"
+        fontWeight="700"
+        fill="currentColor"
+      >
+        सत्यमेव जयते
       </text>
     </svg>
   );
 }
 
-/** Small Digital India / G20-style trust mark used in the footer. */
+/** Digital India initiative mark, shown in the footer alongside the NIC credit. */
 export function DigitalIndiaMark({ className = 'h-8' }) {
   return (
     <svg viewBox="0 0 140 34" className={className} role="img" aria-label="Digital India">
-      <rect width="140" height="34" fill="none" />
       <circle cx="16" cy="17" r="11" fill="#FF9933" />
       <circle cx="16" cy="17" r="6.5" fill="#FFFFFF" />
       <circle cx="16" cy="17" r="2.6" fill="#0B3D91" />
