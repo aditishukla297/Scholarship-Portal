@@ -1,9 +1,9 @@
 {
-  "name": "mota-scholarship-server",
+  "name": "shikshasarthi-server",
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Backend for the AI-Enabled Scholarship and Fellowship Management System (Ministry of Tribal Affairs)",
+  "description": "Backend for the ShikshaSarthi \u2014 AI-Enabled Scholarship and Fellowship Management System (Ministry of Tribal Affairs)",
   "main": "src/index.js",
   "scripts": {
     "dev": "nodemon src/index.js",

@@ -1,7 +1,10 @@
-# AI-Enabled Scholarship and Fellowship Management System
+# ShikshaSarthi · शिक्षा सारथी
 
-**A Smart India Hackathon 2026 prototype**, built against a problem statement published by the
-Ministry of Tribal Affairs.
+**AI-Enabled Scholarship and Fellowship Management System** — a Smart India Hackathon 2026
+prototype, built against a problem statement published by the Ministry of Tribal Affairs.
+
+*Sarthi* is the charioteer who steers; ShikshaSarthi steers a student through the scholarship
+process, from eligibility to the money reaching their account.
 
 A full-stack portal for administering scholarship and fellowship schemes for Scheduled Tribe
 students, from application through automated document verification and officer review to

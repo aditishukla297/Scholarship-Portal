@@ -8,7 +8,7 @@
  */
 
 /** Primary project mark: a scholarship device in the portal palette. */
-export function ProjectMark({ className = 'h-12 w-12', title = 'Scholarship Management System' }) {
+export function ProjectMark({ className = 'h-12 w-12', title = 'ShikshaSarthi' }) {
   return (
     <svg viewBox="0 0 64 64" className={className} role="img" aria-label={title}>
       <title>{title}</title>

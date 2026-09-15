@@ -24,7 +24,7 @@ app.use(morgan('dev'));
 app.get('/api/health', (_req, res) =>
   res.json({
     status: 'UP',
-    service: 'AI-Enabled Scholarship and Fellowship Management System',
+    service: 'ShikshaSarthi — AI-Enabled Scholarship and Fellowship Management System',
     note: 'Smart India Hackathon prototype — not a Government of India service',
     time: new Date().toISOString(),
   })
@@ -57,7 +57,7 @@ if (!process.env.VERCEL) {
     // so the portal is immediately usable without a MongoDB installation.
         await migrate();
       app.listen(PORT, () => {
-        console.log(`[server] Scholarship portal API listening on http://localhost:${PORT}`);
+        console.log(`[server] ShikshaSarthi API listening on http://localhost:${PORT}`);
       });
     })
     .catch((err) => {

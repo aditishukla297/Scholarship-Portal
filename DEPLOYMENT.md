@@ -1,4 +1,4 @@
-# Deploying to Vercel
+# Deploying ShikshaSarthi to Vercel
 
 The portal deploys as **two Vercel projects from one repository** — the API and the web client.
 Keeping them separate is simpler than a monorepo build and lets you redeploy either on its own.

@@ -10,6 +10,11 @@ export const STRINGS = {
   },
   ministryShort: { en: 'Ministry of Tribal Affairs', hi: 'जनजातीय कार्य मंत्रालय' },
   govOfIndia: { en: 'Smart India Hackathon 2026', hi: 'स्मार्ट इंडिया हैकाथॉन 2026' },
+  brand: { en: 'ShikshaSarthi', hi: 'शिक्षा सारथी' },
+  brandTagline: {
+    en: 'AI-Enabled Scholarship and Fellowship Management System',
+    hi: 'एआई-सक्षम छात्रवृत्ति एवं फेलोशिप प्रबंधन प्रणाली',
+  },
   portalTitle: {
     en: 'AI-Enabled Scholarship and Fellowship Management System',
     hi: 'एआई-सक्षम छात्रवृत्ति एवं फेलोशिप प्रबंधन प्रणाली',

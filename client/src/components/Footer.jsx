@@ -46,10 +46,10 @@ export default function Footer() {
       <div className="bg-navy text-white">
         <div className="gov-container grid gap-6 py-7 md:grid-cols-4">
           <div>
-            <h2 className="mb-2 text-gov-card font-semibold text-white">About this project</h2>
+            <h2 className="mb-2 text-gov-card font-semibold text-white">About ShikshaSarthi</h2>
             <p className="mb-2 text-gov-table text-white/85">
-              A working prototype built for the Smart India Hackathon, addressing a problem statement published by the
-              Ministry of Tribal Affairs. It is not affiliated with, endorsed by or operated by the Ministry or any
+              ShikshaSarthi is a working prototype built for the Smart India Hackathon, addressing a problem statement
+              published by the Ministry of Tribal Affairs. It is not affiliated with, endorsed by or operated by the Ministry or any
               Government body.
             </p>
             <address className="space-y-1.5 text-gov-table not-italic text-white/85">

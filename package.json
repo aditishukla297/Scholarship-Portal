@@ -1,8 +1,8 @@
 {
-  "name": "mota-scholarship-portal",
+  "name": "shikshasarthi",
   "version": "1.0.0",
   "private": true,
-  "description": "AI-Enabled Scholarship and Fellowship Management System — Ministry of Tribal Affairs, Government of India",
+  "description": "ShikshaSarthi \u2014 AI-Enabled Scholarship and Fellowship Management System \u2014 Ministry of Tribal Affairs, Government of India",
   "scripts": {
     "setup": "npm install && npm --prefix server install && npm --prefix client install",
     "dev": "concurrently -n API,WEB -c blue,green \"npm:dev:server\" \"npm:dev:client\"",
