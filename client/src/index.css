@@ -1,0 +1,208 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------ Base */
+@layer base {
+  html {
+    font-size: 16px; /* adjusted by the A+ / A / A- utility bar controls */
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-white text-govgrey-800 font-sans text-gov-body antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply text-navy;
+  }
+  a {
+    @apply text-navy underline-offset-2;
+  }
+  a:hover {
+    @apply underline;
+  }
+  /* Visible keyboard focus — required for GIGW / WCAG compliance. */
+  :focus-visible {
+    outline: 2px solid #FF9933;
+    outline-offset: 2px;
+  }
+  table {
+    @apply border-collapse;
+  }
+}
+
+/* ------------------------------------------------------------ Components */
+@layer components {
+  .gov-container {
+    @apply mx-auto w-full max-w-gov px-4;
+  }
+
+  /* --- Panels ------------------------------------------------------- */
+  .gov-panel {
+    @apply rounded-gov border border-govgrey-300 bg-white shadow-gov;
+  }
+  .gov-panel-header {
+    @apply flex items-center justify-between gap-3 border-b border-govgrey-300 bg-govgrey-100 px-4 py-2.5;
+  }
+  .gov-panel-title {
+    @apply text-gov-card font-semibold text-navy;
+  }
+  .gov-panel-body {
+    @apply p-4;
+  }
+  .gov-panel-navy > .gov-panel-header {
+    @apply border-navy-dark bg-navy;
+  }
+  .gov-panel-navy > .gov-panel-header .gov-panel-title,
+  .gov-panel-navy > .gov-panel-header {
+    @apply text-white;
+  }
+
+  /* --- Buttons ------------------------------------------------------ */
+  .gov-btn {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-gov border px-3.5 py-2 text-gov-body
+           font-semibold no-underline transition-colors duration-150
+           disabled:cursor-not-allowed disabled:opacity-55;
+  }
+  .gov-btn:hover { @apply no-underline; }
+  .gov-btn-primary {
+    @apply gov-btn border-navy bg-navy text-white hover:bg-navy-dark;
+  }
+  .gov-btn-secondary {
+    @apply gov-btn border-govgrey-400 bg-white text-navy hover:bg-govgrey-100;
+  }
+  .gov-btn-saffron {
+    @apply gov-btn border-saffron-dark bg-saffron text-govgrey-800 hover:bg-saffron-dark hover:text-white;
+  }
+  .gov-btn-success {
+    @apply gov-btn border-india-dark bg-india-green text-white hover:bg-india-dark;
+  }
+  .gov-btn-danger {
+    @apply gov-btn border-alert-dark bg-alert text-white hover:bg-alert-dark;
+  }
+  .gov-btn-sm {
+    @apply px-2.5 py-1 text-gov-table;
+  }
+
+  /* --- Forms -------------------------------------------------------- */
+  .gov-label {
+    @apply mb-1 block text-gov-body font-semibold text-govgrey-700;
+  }
+  .gov-required::after {
+    content: ' *';
+    @apply text-alert;
+  }
+  .gov-input,
+  .gov-select,
+  .gov-textarea {
+    @apply w-full rounded-gov border border-govgrey-400 bg-white px-2.5 py-1.5 text-gov-body text-govgrey-800
+           placeholder:text-govgrey-400
+           focus:border-navy focus:outline-none focus:ring-1 focus:ring-navy
+           disabled:bg-govgrey-100 disabled:text-govgrey-500;
+  }
+  .gov-select {
+    @apply appearance-none bg-[length:14px] bg-[right_0.6rem_center] bg-no-repeat pr-8;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235A6172' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  }
+  .gov-hint {
+    @apply mt-1 text-gov-xs text-govgrey-500;
+  }
+  .gov-error-text {
+    @apply mt-1 text-gov-xs font-semibold text-alert;
+  }
+  .gov-fieldset {
+    @apply mb-5 border-b border-govgrey-200 pb-5 last:mb-0 last:border-b-0 last:pb-0;
+  }
+  .gov-legend {
+    @apply mb-3 border-l-4 border-saffron pl-2 text-gov-card font-semibold text-navy;
+  }
+
+  /* --- Tables ------------------------------------------------------- */
+  .gov-table {
+    @apply w-full border border-govgrey-300 text-gov-table;
+  }
+  .gov-table thead th {
+    @apply border-b border-navy-dark bg-navy px-3 py-2 text-left font-semibold uppercase tracking-wide text-white;
+    font-size: 0.75rem;
+  }
+  .gov-table tbody td {
+    @apply border-b border-govgrey-200 px-3 py-2 align-middle text-govgrey-700;
+  }
+  .gov-table tbody tr:nth-child(even) {
+    @apply bg-govgrey-50;
+  }
+  .gov-table tbody tr:hover {
+    @apply bg-saffron-light;
+  }
+  .gov-table-compact tbody td {
+    @apply px-2 py-1.5;
+  }
+
+  /* --- Badges ------------------------------------------------------- */
+  .gov-badge {
+    @apply inline-flex items-center gap-1 rounded-sm border px-1.5 py-0.5 text-gov-xs font-semibold uppercase tracking-wide;
+  }
+
+  /* --- Alerts ------------------------------------------------------- */
+  .gov-alert {
+    @apply flex items-start gap-2.5 rounded-gov border-l-4 p-3 text-gov-body;
+  }
+  .gov-alert-error { @apply gov-alert border-alert bg-alert-light text-alert-dark; }
+  .gov-alert-warn  { @apply gov-alert border-warn bg-warn-light text-warn; }
+  .gov-alert-info  { @apply gov-alert border-navy bg-[#EEF3FB] text-navy; }
+  .gov-alert-ok    { @apply gov-alert border-india-green bg-india-light text-india-dark; }
+
+  /* --- Sidebar ------------------------------------------------------ */
+  .gov-sidebar-link {
+    @apply flex items-center gap-2 border-l-[3px] border-transparent px-3 py-2 text-gov-body
+           text-govgrey-700 no-underline transition-colors hover:bg-govgrey-100 hover:text-navy;
+  }
+  .gov-sidebar-link.active {
+    @apply border-saffron bg-[#EEF3FB] font-semibold text-navy;
+  }
+
+  /* --- Section heading --------------------------------------------- */
+  .gov-section-title {
+    @apply mb-3 border-b-2 border-saffron pb-1.5 text-gov-section font-semibold text-navy;
+  }
+
+  /* --- Skip link ---------------------------------------------------- */
+  .skip-link {
+    @apply absolute left-2 -top-24 z-[100] rounded-gov bg-navy px-3 py-2 text-white focus:top-2;
+  }
+
+  .gov-kv {
+    @apply grid grid-cols-[minmax(9rem,0.6fr)_1fr] gap-x-3 gap-y-0 border-b border-govgrey-200 py-1.5 last:border-b-0;
+  }
+  .gov-kv dt { @apply text-gov-table font-semibold text-govgrey-600; }
+  .gov-kv dd { @apply text-gov-table text-govgrey-800; }
+}
+
+/* --------------------------------------------------- Marquee (gov style) */
+@keyframes gov-marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.gov-marquee-track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: gov-marquee 38s linear infinite;
+}
+.gov-marquee:hover .gov-marquee-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .gov-marquee-track { animation: none; }
+}
+
+/* Tricolour rule used under the masthead */
+.tricolour-rule {
+  height: 3px;
+  background: linear-gradient(to right, #FF9933 0 33.33%, #FFFFFF 33.33% 66.66%, #138808 66.66% 100%);
+}
+
+/* Print — officers print sanction orders and application summaries */
+@media print {
+  .no-print { display: none !important; }
+  body { font-size: 11pt; }
+  .gov-panel { border-color: #999; box-shadow: none; }
+}

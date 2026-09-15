@@ -1,0 +1,68 @@
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import morgan from 'morgan';
+import { connectDB } from './config/db.js';
+import { notFound, errorHandler } from './middleware/error.js';
+
+import authRoutes from './routes/auth.js';
+import schemeRoutes from './routes/schemes.js';
+import applicationRoutes from './routes/applications.js';
+import verificationRoutes, { ocrRouter } from './routes/verification.js';
+import analyticsRoutes from './routes/analytics.js';
+import eligibilityRoutes from './routes/eligibility.js';
+import userRoutes from './routes/users.js';
+import grievanceRoutes from './routes/grievance.js';
+
+const app = express();
+
+app.use(cors({ origin: process.env.CLIENT_ORIGIN?.split(',') || '*', credentials: true }));
+app.use(express.json({ limit: '2mb' }));
+app.use(express.urlencoded({ extended: true }));
+app.use(morgan('dev'));
+
+app.get('/api/health', (_req, res) =>
+  res.json({
+    status: 'UP',
+    service: 'AI-Enabled Scholarship and Fellowship Management System',
+    ministry: 'Ministry of Tribal Affairs, Government of India',
+    time: new Date().toISOString(),
+  })
+);
+
+app.use('/api/auth', authRoutes);
+app.use('/api/schemes', schemeRoutes);
+app.use('/api/applications', applicationRoutes);
+app.use('/api/verify', verificationRoutes);
+// The same OCR handler is also exposed at the documented top-level path.
+app.use('/api/ocr', ocrRouter);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/eligibility', eligibilityRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/grievances', grievanceRoutes);
+
+app.use(notFound);
+app.use(errorHandler);
+
+const PORT = process.env.PORT || 5175;
+
+connectDB()
+  .then(async () => {
+    // In-memory demo mode starts with an empty database — seed it automatically
+    // so the portal is immediately usable without a MongoDB installation.
+    if (String(process.env.USE_MEMORY_DB).toLowerCase() === 'true') {
+      const { seedDatabase } = await import('./seed.js');
+      console.log('[server] seeding in-memory demo database...');
+      await seedDatabase();
+    }
+    app.listen(PORT, () => {
+      console.log(`[server] Ministry of Tribal Affairs portal API listening on http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error('[server] failed to start:', err.message);
+    console.error('[server] Start MongoDB, or set USE_MEMORY_DB=true in server/.env for a demo run.');
+    process.exit(1);
+  });
+
+export default app;
