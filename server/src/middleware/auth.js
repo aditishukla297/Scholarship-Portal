@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import User from '../models/User.js';
+import * as Users from '../repos/users.js';
 
 export function signToken(user) {
   return jwt.sign(
@@ -16,7 +16,7 @@ export async function requireAuth(req, res, next) {
     if (!token) return res.status(401).json({ message: 'Authentication required. Please log in.' });
 
     const payload = jwt.verify(token, process.env.JWT_SECRET || 'dev-secret');
-    const user = await User.findById(payload.sub);
+    const user = await Users.findById(payload.sub);
     if (!user || !user.active) return res.status(401).json({ message: 'Account not found or deactivated.' });
 
     req.user = user;

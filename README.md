@@ -21,7 +21,7 @@ the Direct Benefit Transfer credit.
 | Layer | Technology |
 |---|---|
 | Frontend | React 18, Vite 5, Tailwind CSS 3, React Router 6, Axios, Lucide Icons |
-| Backend | Node.js, Express 4, MongoDB (Mongoose 8), JWT, Multer |
+| Backend | Node.js, Express 4, PostgreSQL (`pg` 8), JWT, Multer |
 | AI modules | Eligibility rule engine, OCR extraction placeholder, deficiency detection, duplicate detection, officer recommendation |
 | Charts | Hand-rolled inline SVG (no chart library) — bar, column, donut, progress meter |
 
@@ -32,20 +32,23 @@ the Direct Benefit Transfer credit.
 ### Prerequisites
 
 - Node.js 18 or above
-- MongoDB running locally, **or** use the built-in in-memory database (see below)
+- PostgreSQL 14 or above, locally or hosted (Neon, Supabase, Railway)
 
 ### 1. Backend
 
 ```bash
+brew install postgresql@14 && brew services start postgresql@14   # if not already installed
+createdb mota_scholarship
+
 cd server
 npm install
-cp .env.example .env     # already present; edit if required
-npm run seed             # loads schemes, users and ~80 sample applications
+cp .env.example .env     # set DATABASE_URL to your database
+npm run seed             # creates the schema, then loads schemes, users and ~80 applications
 npm run dev              # http://localhost:5175
 ```
 
-**No MongoDB installed?** Set `USE_MEMORY_DB=true` in `server/.env`. An ephemeral in-memory
-MongoDB is started and seeded automatically on boot. Data is discarded when the server stops.
+`npm run seed` applies `src/db/schema.sql` before loading data, so there is no separate migration
+step. To apply the schema alone, run `npm run migrate`. Both are idempotent.
 
 ### 2. Frontend
 
@@ -60,7 +63,7 @@ Open **http://localhost:5180**.
 ### Deployment
 
 See **[DEPLOYMENT.md](DEPLOYMENT.md)** for deploying the API and the client to Vercel with
-MongoDB Atlas.
+Neon Postgres.
 
 ### Ports
 
@@ -73,7 +76,7 @@ Receiver and is deliberately avoided. To change them, edit `PORT` and `CLIENT_OR
 ## Signing in
 
 **Registration is fully functional** — use **Register** in the navigation to create a real
-applicant account, which is persisted to MongoDB with the password bcrypt-hashed and the
+applicant account, which is persisted to Postgres with the password bcrypt-hashed and the
 Aadhaar number stored masked. That is the honest path through the applicant journey.
 
 The seeded accounts below exist so the officer and administrator views can be reached without
@@ -192,18 +195,26 @@ Base URL `/api`. Authenticated routes expect `Authorization: Bearer <token>`.
 
 ## Database models
 
-**User** — name, email, phone, passwordHash, `aadhaarMasked`, category, role, gender, state,
+Defined in `server/src/db/schema.sql`. Structures that are always read and written whole
+(`documents`, `deficiencies`, `timeline`, `ai_findings`) are `JSONB`; anything filtered, sorted or
+aggregated on is a real or generated column so it can be indexed.
+
+**users** — name, email, phone, password_hash, aadhaar_masked, category, role, gender, state,
 district, designation, active.
 
-**Scheme** — code, name, type, description, benefits, educationLevels, slots, amount, application
-window, `eligibilityRules[]`, `requiredDocuments[]`, active.
+**schemes** — code, name, type, description, benefits, education_levels, slots, amount,
+application window, eligibility_rules (JSONB), required_documents (JSONB), active.
 
-**Application** — applicationId, applicant, scheme, status, personal, category, academic, bank,
-`documents[]` (each with its OCR result), `deficiencies[]`, `timeline[]`, `aiFindings`,
-disbursement.
+**applications** — application_id, applicant_id, scheme_id, status, personal/category/academic/bank
+(JSONB), documents, deficiencies, timeline, ai_findings, disbursement. Generated columns promote
+`state`, `education_level`, `gender` and `merit_score` out of JSONB for the officer queue and MIS.
 
-**Verification** — application, officer, action, remarks, confidence, aiRecommendation,
-`overrodeAi`, documentsChecked, timestamp.
+**verifications** — application_id, officer_id, action, remarks, confidence, ai_recommendation,
+overrode_ai, documents_checked, acted_at.
+
+**document_files** — stored_name, application_id, mime_type, size_bytes, `data BYTEA`.
+
+**grievances** — ticket_id, name, email, category, subject, message, status.
 
 ---
 
@@ -273,8 +284,9 @@ mota-portal/
   the masking happens server-side in `User.maskAadhaar()`.
 - Passwords are hashed with bcrypt and excluded from every query by default (`select: false`).
 - JWT with an 8-hour expiry; role-based gates on the server (`requireRole`) as well as in the UI.
-- Uploads are restricted to PDF / JPG / PNG, capped at 5 MB, held in MongoDB rather than on the
-  filesystem, and served only through an authenticated, ownership-checked route.
+- Uploads are restricted to PDF / JPG / PNG, capped at 5 MB, held in the database rather than on
+  the filesystem, and served only through an authenticated, ownership-checked route.
+- Every query is parameterised; no SQL is built by string concatenation of user input.
 - Officers cannot register themselves; every verification action is written to an immutable
   audit record naming the officer, their remarks and whether they overrode the system.
 - Change `JWT_SECRET` before any deployment.

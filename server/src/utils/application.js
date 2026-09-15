@@ -1,10 +1,9 @@
-import Application from '../models/Application.js';
+import * as Applications from '../repos/applications.js';
 
 /** MoTA/NFST/2026/000123 */
 export async function generateApplicationId(schemeCode, year = new Date().getFullYear()) {
-  const count = await Application.countDocuments();
-  const serial = String(count + 1).padStart(6, '0');
-  return `MoTA/${schemeCode}/${year}/${serial}`;
+  const serial = await Applications.nextSerial();
+  return `MoTA/${schemeCode}/${year}/${String(serial).padStart(6, '0')}`;
 }
 
 export const TRACKING_STAGES = [
@@ -48,7 +47,8 @@ export function buildTrackingTimeline(application) {
   });
 }
 
+/** Appends an event to the application's movement history (mutates in place). */
 export function pushTimeline(application, stage, remark, actor = 'System', status = 'completed') {
   application.timeline = application.timeline || [];
-  application.timeline.push({ stage, remark, actor, status, at: new Date() });
+  application.timeline.push({ stage, remark, actor, status, at: new Date().toISOString() });
 }

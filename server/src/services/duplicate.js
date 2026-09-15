@@ -1,4 +1,4 @@
-import Application from '../models/Application.js';
+import * as Applications from '../repos/applications.js';
 
 /**
  * Duplicate application detection.
@@ -8,30 +8,21 @@ import Application from '../models/Application.js';
  * advisory — the officer decides.
  */
 export async function detectDuplicates(application) {
-  const liveStatuses = ['Submitted', 'Under Verification', 'Deficiency Raised', 'Verified', 'Selected', 'Sanctioned', 'Disbursed'];
-  const or = [];
-
-  if (application.applicant) or.push({ applicant: application.applicant, scheme: application.scheme });
-  if (application.personal?.aadhaarMasked) or.push({ 'personal.aadhaarMasked': application.personal.aadhaarMasked });
-  if (application.category?.casteCertificateNumber) {
-    or.push({ 'category.casteCertificateNumber': application.category.casteCertificateNumber });
-  }
-  if (!or.length) return { duplicateFlag: false, duplicateDetail: '' };
-
-  const matches = await Application.find({
-    _id: { $ne: application._id },
+  const matches = await Applications.findPotentialDuplicates({
+    id: application._id,
+    applicantId: typeof application.applicant === 'object' ? application.applicant?._id : application.applicant,
+    schemeId: typeof application.scheme === 'object' ? application.scheme?._id : application.scheme,
     academicYear: application.academicYear,
-    status: { $in: liveStatuses },
-    $or: or,
-  })
-    .select('applicationId scheme status personal.fullName')
-    .limit(5)
-    .lean();
+    aadhaarMasked: application.personal?.aadhaarMasked,
+    casteCertificateNumber: application.category?.casteCertificateNumber,
+  });
 
   if (!matches.length) return { duplicateFlag: false, duplicateDetail: '' };
 
   return {
     duplicateFlag: true,
-    duplicateDetail: `Potential duplicate of ${matches.map((m) => `${m.applicationId} (${m.status})`).join(', ')} for academic year ${application.academicYear}. Verify before proceeding.`,
+    duplicateDetail: `Potential duplicate of ${matches
+      .map((m) => `${m.application_id} (${m.status})`)
+      .join(', ')} for academic year ${application.academicYear}. Verify before proceeding.`,
   };
 }
