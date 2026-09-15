@@ -6,9 +6,24 @@ import { useAuth } from '../../context/AuthContext';
 import { apiError } from '../../api/client';
 
 const DEMO = [
-  { role: 'Applicant', email: 'student@example.in', password: 'Student@1234' },
-  { role: 'Verifying Officer', email: 'officer@tribal.gov.in', password: 'Officer@1234' },
-  { role: 'Administrator', email: 'admin@tribal.gov.in', password: 'Admin@1234' },
+  {
+    role: 'Applicant',
+    email: 'student@example.in',
+    password: 'Student@1234',
+    opens: 'Apply, upload documents, respond to deficiencies and track the DBT credit.',
+  },
+  {
+    role: 'Verifying Officer',
+    email: 'officer@tribal.gov.in',
+    password: 'Officer@1234',
+    opens: 'Work the verification queue, read the AI panel and record decisions.',
+  },
+  {
+    role: 'Administrator',
+    email: 'admin@tribal.gov.in',
+    password: 'Admin@1234',
+    opens: 'Manage schemes, eligibility rules, users and reports.',
+  },
 ];
 
 export default function Login() {
@@ -20,12 +35,11 @@ export default function Login() {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+  async function signIn(email, password) {
     setError('');
     setBusy(true);
     try {
-      const user = await login(form.email.trim(), form.password);
+      const user = await login(email.trim(), password);
       const target =
         location.state?.from ||
         (user.role === 'officer' ? '/officer' : user.role === 'admin' ? '/admin' : '/dashboard');
@@ -35,6 +49,17 @@ export default function Login() {
     } finally {
       setBusy(false);
     }
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    return signIn(form.email, form.password);
+  }
+
+  /** Fills the form with a demonstration account and signs in straight away. */
+  function useDemoAccount(account) {
+    setForm({ email: account.email, password: account.password });
+    return signIn(account.email, account.password);
   }
 
   return (
@@ -117,22 +142,42 @@ export default function Login() {
               </div>
               <div className="gov-panel-body">
                 <p className="mb-2.5 text-gov-xs text-govgrey-600">
-                  This is a Smart India Hackathon prototype seeded with sample data. Use any account below to explore the
-                  corresponding role.
+                  This is a Smart India Hackathon prototype seeded with sample data. Select an account below to sign in
+                  directly as that role.
                 </p>
                 <ul className="space-y-2">
                   {DEMO.map((d) => (
                     <li key={d.email} className="rounded-gov border border-govgrey-300 bg-govgrey-50 p-2.5">
                       <p className="text-gov-table font-semibold text-navy">{d.role}</p>
-                      <p className="text-gov-xs text-govgrey-600">{d.email}</p>
-                      <p className="text-gov-xs text-govgrey-600">{d.password}</p>
-                      <button
-                        type="button"
-                        className="gov-btn-secondary gov-btn-sm mt-1.5"
-                        onClick={() => setForm({ email: d.email, password: d.password })}
-                      >
-                        Use these credentials
-                      </button>
+                      <dl className="mt-0.5 text-gov-xs text-govgrey-600">
+                        <div className="flex gap-1.5">
+                          <dt className="w-16 shrink-0 text-govgrey-500">Email</dt>
+                          <dd className="break-all font-medium">{d.email}</dd>
+                        </div>
+                        <div className="flex gap-1.5">
+                          <dt className="w-16 shrink-0 text-govgrey-500">Password</dt>
+                          <dd className="font-medium">{d.password}</dd>
+                        </div>
+                      </dl>
+                      <p className="mt-1 text-gov-xs text-govgrey-500">{d.opens}</p>
+                      <div className="mt-2 flex flex-wrap gap-1.5">
+                        <button
+                          type="button"
+                          className="gov-btn-primary gov-btn-sm"
+                          disabled={busy}
+                          onClick={() => useDemoAccount(d)}
+                        >
+                          <LogIn size={12} /> Sign in as {d.role}
+                        </button>
+                        <button
+                          type="button"
+                          className="gov-btn-secondary gov-btn-sm"
+                          disabled={busy}
+                          onClick={() => setForm({ email: d.email, password: d.password })}
+                        >
+                          Fill form only
+                        </button>
+                      </div>
                     </li>
                   ))}
                 </ul>
