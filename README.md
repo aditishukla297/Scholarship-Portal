@@ -49,14 +49,14 @@ MongoDB is started and seeded automatically on boot. Data is discarded when the 
 ```bash
 cd client
 npm install
-npm run dev              # http://localhost:5199 (Vite proxies /api to the backend)
+npm run dev              # http://localhost:5173 (Vite proxies /api to the backend)
 ```
 
-Open **http://localhost:5199**.
+Open **http://localhost:5173**.
 
 ### Ports
 
-The API defaults to **5175** and the client to **5173** (Vite's default; any free port works).
+The API defaults to **5175** and the client to **5173**.
 Port 5000 is used by macOS AirPlay Receiver, so it is deliberately avoided. To change the API
 port, edit `PORT` in `server/.env` and the proxy `target` in `client/vite.config.js`.
 
