@@ -5,7 +5,7 @@ import { DashboardLayout } from '../../components/Layouts';
 import { Panel } from '../../components/Cards';
 import DataTable from '../../components/DataTable';
 import StatusBadge, { ConfidenceBadge, RecommendationBadge } from '../../components/StatusBadge';
-import api from '../../api/client';
+import api, { downloadFile, apiError } from '../../api/client';
 import { STATES, EDUCATION_LEVELS, APPLICATION_STATUSES } from '../../data/reference';
 
 const fmt = (d) => (d ? new Date(d).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '—');
@@ -61,12 +61,18 @@ export default function ApplicationQueue() {
       title="Application Verification Queue"
       intro="Applications received under all schemes, with filters by state, scheme, level of education and status."
       actions={
-        <a
-          href={`/api/analytics/report?format=csv&status=${encodeURIComponent(filters.status)}&state=${encodeURIComponent(filters.state)}`}
+        <button
+          type="button"
           className="gov-btn-secondary"
+          onClick={() =>
+            downloadFile(
+              `/analytics/report?format=csv&status=${encodeURIComponent(filters.status)}&state=${encodeURIComponent(filters.state)}&scheme=${encodeURIComponent(filters.scheme)}`,
+              `applications-${Date.now()}.csv`
+            ).catch((err) => window.alert(apiError(err, 'The export could not be downloaded.')))
+          }
         >
           <Download size={15} /> Export CSV
-        </a>
+        </button>
       }
     >
       <div className="space-y-4">

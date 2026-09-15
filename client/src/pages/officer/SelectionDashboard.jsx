@@ -5,7 +5,7 @@ import { DashboardLayout } from '../../components/Layouts';
 import { Panel, StatCard } from '../../components/Cards';
 import DataTable from '../../components/DataTable';
 import StatusBadge, { ConfidenceBadge, RecommendationBadge } from '../../components/StatusBadge';
-import api from '../../api/client';
+import api, { downloadFile, apiError } from '../../api/client';
 import { STATES } from '../../data/reference';
 
 export default function SelectionDashboard() {
@@ -36,9 +36,18 @@ export default function SelectionDashboard() {
       title="Selection Dashboard"
       intro="Merit-ranked list of candidates whose verification is complete, for consideration by the Selection Committee."
       actions={
-        <a href="/api/analytics/report?format=csv&status=Verified" className="gov-btn-secondary">
+        <button
+          type="button"
+          className="gov-btn-secondary"
+          onClick={() =>
+            downloadFile(
+              `/analytics/report?format=csv&status=Verified&scheme=${scheme}&state=${state}`,
+              `merit-list-${Date.now()}.csv`
+            ).catch((err) => window.alert(apiError(err, 'The merit list could not be downloaded.')))
+          }
+        >
           <Download size={15} /> Export merit list
-        </a>
+        </button>
       }
     >
       <div className="space-y-4">

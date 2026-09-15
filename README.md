@@ -57,6 +57,11 @@ npm run dev              # http://localhost:5180 (Vite proxies /api to the backe
 
 Open **http://localhost:5180**.
 
+### Deployment
+
+See **[DEPLOYMENT.md](DEPLOYMENT.md)** for deploying the API and the client to Vercel with
+MongoDB Atlas.
+
 ### Ports
 
 The API defaults to **5175** and the client to **5180**. Port 5000 is used by macOS AirPlay
@@ -268,8 +273,8 @@ mota-portal/
   the masking happens server-side in `User.maskAadhaar()`.
 - Passwords are hashed with bcrypt and excluded from every query by default (`select: false`).
 - JWT with an 8-hour expiry; role-based gates on the server (`requireRole`) as well as in the UI.
-- Uploads are restricted to PDF / JPG / PNG, capped at 5 MB, stored outside the web root and
-  served only through an authenticated, ownership-checked route.
+- Uploads are restricted to PDF / JPG / PNG, capped at 5 MB, held in MongoDB rather than on the
+  filesystem, and served only through an authenticated, ownership-checked route.
 - Officers cannot register themselves; every verification action is written to an immutable
   audit record naming the officer, their remarks and whether they overrode the system.
 - Change `JWT_SECRET` before any deployment.

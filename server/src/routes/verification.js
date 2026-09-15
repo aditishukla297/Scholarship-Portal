@@ -1,11 +1,10 @@
 import { Router } from 'express';
-import fs from 'fs';
-import path from 'path';
 import Application from '../models/Application.js';
+import DocumentFile from '../models/DocumentFile.js';
 import Scheme from '../models/Scheme.js';
 import Verification from '../models/Verification.js';
 import { requireAuth, requireRole } from '../middleware/auth.js';
-import { upload, UPLOAD_DIR } from '../middleware/upload.js';
+import { upload, buildStoredName } from '../middleware/upload.js';
 import { runOcr, confidenceBand } from '../services/ocr.js';
 import { runAiPipeline } from './applications.js';
 import { pushTimeline, buildTrackingTimeline } from '../utils/application.js';
@@ -22,7 +21,6 @@ export async function ocrHandler(req, res, next) {
     const { applicationId, documentCode, documentName } = req.body;
     if (!req.file) return res.status(400).json({ message: 'No file was received. Attach a PDF, JPG or PNG.' });
     if (!applicationId || !documentCode) {
-      fs.unlink(path.join(UPLOAD_DIR, req.file.filename), () => {});
       return res.status(400).json({ message: 'Application reference and document type are required.' });
     }
 
@@ -37,11 +35,23 @@ export async function ocrHandler(req, res, next) {
 
     const ocr = runOcr({ documentCode, fileName: req.file.originalname, application: app });
 
+    // Persist the binary in MongoDB; the filesystem is not writable on serverless.
+    const storedName = buildStoredName(documentCode, req.file.mimetype);
+    await DocumentFile.create({
+      storedName,
+      application: app._id,
+      documentCode,
+      fileName: req.file.originalname,
+      mimeType: req.file.mimetype,
+      sizeBytes: req.file.size,
+      data: req.file.buffer,
+    });
+
     const entry = {
       code: documentCode,
       name: documentName || requirement?.name || documentCode,
       fileName: req.file.originalname,
-      storedName: req.file.filename,
+      storedName,
       mimeType: req.file.mimetype,
       sizeBytes: req.file.size,
       uploadedAt: new Date(),
@@ -53,7 +63,7 @@ export async function ocrHandler(req, res, next) {
     const priorIndex = app.documents.findIndex((d) => d.code === documentCode);
     if (priorIndex >= 0) {
       const prior = app.documents[priorIndex];
-      if (prior.storedName) fs.unlink(path.join(UPLOAD_DIR, prior.storedName), () => {});
+      if (prior.storedName) await DocumentFile.deleteOne({ storedName: prior.storedName });
       app.documents.splice(priorIndex, 1, entry);
     } else {
       app.documents.push(entry);
@@ -90,10 +100,12 @@ router.get('/documents/:applicationId/:storedName', requireAuth, async (req, res
     const doc = (app.documents || []).find((d) => d.storedName === req.params.storedName);
     if (!doc) return res.status(404).json({ message: 'Document not found.' });
 
-    const filePath = path.join(UPLOAD_DIR, doc.storedName);
-    if (!fs.existsSync(filePath)) return res.status(404).json({ message: 'Stored file is no longer available.' });
-    res.type(doc.mimeType || 'application/octet-stream');
-    return fs.createReadStream(filePath).pipe(res);
+    const stored = await DocumentFile.findOne({ storedName: doc.storedName });
+    if (!stored) return res.status(404).json({ message: 'Stored file is no longer available.' });
+
+    res.type(stored.mimeType || 'application/octet-stream');
+    res.setHeader('Content-Disposition', `inline; filename="${stored.fileName || doc.storedName}"`);
+    return res.send(stored.data);
   } catch (err) {
     return next(err);
   }

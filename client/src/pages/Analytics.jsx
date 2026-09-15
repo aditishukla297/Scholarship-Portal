@@ -4,7 +4,7 @@ import { DashboardLayout } from '../components/Layouts';
 import { Panel, AnalyticsCard } from '../components/Cards';
 import { BarChart, ColumnChart, DonutChart, ProgressMeter } from '../components/charts/Charts';
 import DataTable from '../components/DataTable';
-import api from '../api/client';
+import api, { downloadFile, apiError } from '../api/client';
 
 export default function Analytics() {
   const [data, setData] = useState(null);
@@ -48,9 +48,17 @@ export default function Analytics() {
           <button type="button" className="gov-btn-secondary" onClick={() => load()}>
             <RefreshCw size={14} /> Refresh
           </button>
-          <a href="/api/analytics/report?format=csv" className="gov-btn-primary">
+          <button
+            type="button"
+            className="gov-btn-primary"
+            onClick={() =>
+              downloadFile(`/analytics/report?format=csv&scheme=${scheme}`, `MoTA-analytics-${Date.now()}.csv`).catch((err) =>
+                window.alert(apiError(err, 'The report could not be downloaded.'))
+              )
+            }
+          >
             <Download size={14} /> Export CSV
-          </a>
+          </button>
         </>
       }
     >

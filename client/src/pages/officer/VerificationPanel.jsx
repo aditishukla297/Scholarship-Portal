@@ -8,7 +8,7 @@ import { DashboardLayout } from '../../components/Layouts';
 import { Panel } from '../../components/Cards';
 import StatusBadge, { ConfidenceBadge, RecommendationBadge } from '../../components/StatusBadge';
 import Timeline from '../../components/Timeline';
-import api, { apiError } from '../../api/client';
+import api, { apiError, openFile } from '../../api/client';
 
 const inr = (n) => `₹ ${new Intl.NumberFormat('en-IN').format(n || 0)}`;
 const fmt = (d) => (d ? new Date(d).toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—');
@@ -226,14 +226,17 @@ export default function VerificationPanel() {
                       </div>
                       <div className="flex items-center justify-center bg-govgrey-50 px-3 py-6">
                         {doc.storedName ? (
-                          <a
-                            href={`/api/verify/documents/${a._id}/${doc.storedName}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                          <button
+                            type="button"
                             className="gov-btn-secondary"
+                            onClick={() =>
+                              openFile(`/verify/documents/${a._id}/${doc.storedName}`).catch((err) =>
+                                setError(apiError(err, 'The document could not be opened.'))
+                              )
+                            }
                           >
                             <FileText size={14} /> Open the uploaded file
-                          </a>
+                          </button>
                         ) : (
                           <p className="text-center text-gov-xs text-govgrey-500">
                             This is seeded demonstration data, so no scanned file is stored against it. In the live portal

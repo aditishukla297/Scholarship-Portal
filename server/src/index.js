@@ -46,23 +46,29 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5175;
 
-connectDB()
-  .then(async () => {
+/**
+ * On Vercel the platform owns the listener, so the app is exported and the
+ * connection is established lazily per request instead (see api/index.js).
+ */
+if (!process.env.VERCEL) {
+  connectDB()
+    .then(async () => {
     // In-memory demo mode starts with an empty database — seed it automatically
     // so the portal is immediately usable without a MongoDB installation.
-    if (String(process.env.USE_MEMORY_DB).toLowerCase() === 'true') {
-      const { seedDatabase } = await import('./seed.js');
-      console.log('[server] seeding in-memory demo database...');
-      await seedDatabase();
-    }
-    app.listen(PORT, () => {
-      console.log(`[server] Scholarship portal API listening on http://localhost:${PORT}`);
+      if (String(process.env.USE_MEMORY_DB).toLowerCase() === 'true') {
+        const { seedDatabase } = await import('./seed.js');
+        console.log('[server] seeding in-memory demo database...');
+        await seedDatabase();
+      }
+      app.listen(PORT, () => {
+        console.log(`[server] Scholarship portal API listening on http://localhost:${PORT}`);
+      });
+    })
+    .catch((err) => {
+      console.error('[server] failed to start:', err.message);
+      console.error('[server] Start MongoDB, or set USE_MEMORY_DB=true in server/.env for a demo run.');
+      process.exit(1);
     });
-  })
-  .catch((err) => {
-    console.error('[server] failed to start:', err.message);
-    console.error('[server] Start MongoDB, or set USE_MEMORY_DB=true in server/.env for a demo run.');
-    process.exit(1);
-  });
+}
 
 export default app;

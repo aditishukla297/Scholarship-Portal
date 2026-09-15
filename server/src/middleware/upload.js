@@ -1,10 +1,10 @@
-import fs from 'fs';
-import path from 'path';
 import multer from 'multer';
 
-const UPLOAD_DIR = path.resolve(process.cwd(), process.env.UPLOAD_DIR || 'uploads');
-if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
-
+/**
+ * Uploads are held in memory and then written to MongoDB by the route handler.
+ * Memory storage is required on serverless platforms, whose filesystem is
+ * read-only apart from an ephemeral /tmp that does not survive an invocation.
+ */
 const ALLOWED = {
   'application/pdf': 'pdf',
   'image/jpeg': 'jpg',
@@ -12,17 +12,8 @@ const ALLOWED = {
   'image/png': 'png',
 };
 
-const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => cb(null, UPLOAD_DIR),
-  filename: (req, file, cb) => {
-    const ext = ALLOWED[file.mimetype] || path.extname(file.originalname).replace('.', '') || 'bin';
-    const code = (req.body?.documentCode || 'DOC').replace(/[^A-Z_]/gi, '');
-    cb(null, `${Date.now()}-${code}-${Math.round(Math.random() * 1e6)}.${ext}`);
-  },
-});
-
 export const upload = multer({
-  storage,
+  storage: multer.memoryStorage(),
   limits: { fileSize: Number(process.env.MAX_UPLOAD_MB || 5) * 1024 * 1024 },
   fileFilter: (_req, file, cb) => {
     if (ALLOWED[file.mimetype]) return cb(null, true);
@@ -30,4 +21,11 @@ export const upload = multer({
   },
 });
 
-export { UPLOAD_DIR };
+/** Builds the stable name a stored file is addressed by. */
+export function buildStoredName(documentCode = 'DOC', mimeType = '') {
+  const ext = ALLOWED[mimeType] || 'bin';
+  const code = String(documentCode).replace(/[^A-Z_]/gi, '') || 'DOC';
+  return `${Date.now()}-${code}-${Math.round(Math.random() * 1e6)}.${ext}`;
+}
+
+export { ALLOWED };
